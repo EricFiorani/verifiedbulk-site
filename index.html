@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VerifiedBulk Guide — Get the most out of the bulk editor that verifies its work</title>
+<meta name="description" content="Learn the VerifiedBulk loop: filter, preview, run, verify, undo. Master scheduled sales with verified rollback, conflict-aware undo, and the Recycle Bin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAFAF7;
+  --card:#FFFFFF;
+  --ink:#1C2622;
+  --ink-soft:#4A564F;
+  --verify:#0E7B54;
+  --verify-tint:#E7F3ED;
+  --conflict:#A87508;
+  --conflict-tint:#F8F0DB;
+  --fail:#A63D2F;
+  --rule:#DDE1DA;
+  --rule-soft:#EAEDE7;
+  --display:'Fraunces',serif;
+  --body:'Instrument Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --maxw:1060px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--verify)}
+:focus-visible{outline:3px solid var(--verify);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(250,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:600;font-size:17px}
+.brand svg{flex:none}
+.nav-links{display:flex;gap:26px;align-items:center}
+.nav-links a{text-decoration:none;color:var(--ink-soft);font-size:15px;font-weight:500}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--ink);color:var(--paper)!important;padding:9px 16px;border-radius:8px;font-weight:600}
+.nav-cta:hover{background:var(--verify)}
+@media(max-width:760px){.nav-links a:not(.nav-cta){display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding:76px 0 84px;border-bottom:1px solid var(--rule)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+@media(max-width:880px){.hero-grid{grid-template-columns:1fr;gap:44px}}
+.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--verify);font-weight:500;margin-bottom:18px}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(34px,4.6vw,52px);line-height:1.08;letter-spacing:-.01em;margin-bottom:20px}
+.hero p.lede{font-size:19px;color:var(--ink-soft);max-width:44ch;margin-bottom:30px}
+.btn-row{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;font-weight:600;font-size:16px;padding:13px 22px;border-radius:9px;transition:transform .12s ease,background .12s ease}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--verify);color:#fff}
+.btn-primary:hover{background:#0A6244}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--rule);}
+.btn-ghost:hover{border-color:var(--ink)}
+
+/* ---------- receipt (signature) ---------- */
+.receipt{background:var(--card);border:1px solid var(--rule);border-radius:14px;box-shadow:0 18px 40px -24px rgba(28,38,34,.25);overflow:hidden;font-family:var(--mono);font-size:13.5px}
+.receipt-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px dashed var(--rule);color:var(--ink-soft);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase}
+.receipt-rows{padding:6px 0}
+.r-row{display:flex;justify-content:space-between;gap:12px;padding:10px 18px;border-bottom:1px solid var(--rule-soft);opacity:0;animation:tick .5s ease forwards}
+.r-row:nth-child(1){animation-delay:.4s}
+.r-row:nth-child(2){animation-delay:1.0s}
+.r-row:nth-child(3){animation-delay:1.6s}
+.r-row:nth-child(4){animation-delay:2.2s}
+@keyframes tick{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.r-name{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r-vals{color:var(--ink-soft);white-space:nowrap}
+.r-old{text-decoration:line-through;opacity:.55}
+.r-new{color:var(--ink);font-weight:500}
+.r-mark{font-weight:500;white-space:nowrap}
+.mark-ok{color:var(--verify)}
+.mark-warn{color:var(--conflict)}
+.receipt-foot{padding:14px 18px;background:var(--verify-tint);color:var(--verify);font-weight:500;display:flex;justify-content:space-between;align-items:center;opacity:0;animation:tick .5s ease forwards;animation-delay:2.9s}
+.receipt-foot .warn{color:var(--conflict)}
+.stamp{display:inline-block;border:2px solid var(--verify);color:var(--verify);border-radius:6px;padding:1px 8px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;transform:rotate(-3deg)}
+
+/* ---------- sections ---------- */
+section{padding:78px 0}
+section+section{border-top:1px solid var(--rule)}
+.sec-eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--verify);font-weight:500;margin-bottom:14px}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(27px,3.4vw,36px);line-height:1.15;margin-bottom:14px;letter-spacing:-.005em}
+.sec-lede{color:var(--ink-soft);font-size:18px;max-width:62ch;margin-bottom:40px}
+
+/* ---------- stepper ---------- */
+.loop{display:grid;grid-template-columns:280px 1fr;gap:36px;align-items:start}
+@media(max-width:880px){.loop{grid-template-columns:1fr}}
+.steps{display:flex;flex-direction:column;gap:6px}
+.step-btn{display:flex;align-items:center;gap:14px;text-align:left;background:transparent;border:1px solid transparent;border-radius:10px;padding:13px 14px;font-family:var(--body);font-size:16px;font-weight:500;color:var(--ink-soft);cursor:pointer;transition:background .12s}
+.step-btn:hover{background:var(--rule-soft)}
+.step-btn[aria-selected="true"]{background:var(--card);border-color:var(--rule);color:var(--ink);box-shadow:0 6px 18px -12px rgba(28,38,34,.3)}
+.step-num{font-family:var(--mono);font-size:13px;color:var(--verify);border:1.5px solid var(--verify-tint);background:var(--verify-tint);border-radius:6px;width:28px;height:28px;display:grid;place-items:center;flex:none}
+.step-btn[aria-selected="true"] .step-num{background:var(--verify);color:#fff;border-color:var(--verify)}
+.panel{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:30px 32px;min-height:340px}
+.panel h3{font-family:var(--display);font-weight:600;font-size:23px;margin-bottom:10px}
+.panel p{color:var(--ink-soft);margin-bottom:16px;max-width:58ch}
+.mock{font-family:var(--mono);font-size:13px;background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;margin:18px 0;overflow-x:auto}
+.mock .dim{color:var(--ink-soft)}
+.mock .ok{color:var(--verify);font-weight:500}
+.mock .warn{color:var(--conflict);font-weight:500}
+.mock .old{text-decoration:line-through;opacity:.55}
+.mock .bar{display:block;height:8px;background:var(--rule-soft);border-radius:99px;overflow:hidden;margin-top:8px}
+.mock .bar i{display:block;height:100%;width:72%;background:var(--verify);border-radius:99px}
+.chip{display:inline-block;background:var(--verify-tint);color:var(--verify);border-radius:99px;padding:2px 11px;font-family:var(--mono);font-size:12.5px;margin:2px 4px 2px 0}
+.tip{display:flex;gap:10px;background:var(--verify-tint);border-radius:10px;padding:13px 16px;font-size:15px;color:var(--ink)}
+.tip b{color:var(--verify)}
+
+/* ---------- feature cards ---------- */
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:820px){.feat-grid{grid-template-columns:1fr}}
+.feat{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:28px 28px 26px}
+.feat h3{font-family:var(--display);font-weight:600;font-size:21px;margin-bottom:10px}
+.feat p{color:var(--ink-soft);font-size:16px;margin-bottom:14px}
+.feat .mock{margin:14px 0 4px}
+.honesty{font-size:14.5px;color:var(--ink-soft);border-left:3px solid var(--conflict);padding:4px 0 4px 14px;margin-top:14px}
+.honesty b{color:var(--conflict)}
+
+/* ---------- fields ---------- */
+.field-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.field{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:15px 16px}
+.field b{display:block;font-size:15.5px;margin-bottom:3px}
+.field span{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+
+/* ---------- playbook ---------- */
+.play{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;counter-reset:play}
+@media(max-width:820px){.play{grid-template-columns:1fr}}
+.play li{list-style:none;position:relative;padding:14px 16px 14px 46px;background:var(--card);border:1px solid var(--rule);border-radius:10px;font-size:15.5px;color:var(--ink-soft)}
+.play li b{color:var(--ink)}
+.play li::before{counter-increment:play;content:counter(play,decimal-leading-zero);position:absolute;left:15px;top:15px;font-family:var(--mono);font-size:12.5px;color:var(--verify)}
+
+/* ---------- faq ---------- */
+.faq{max-width:760px}
+.faq details{border-bottom:1px solid var(--rule)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:19px 4px;font-weight:600;font-size:17px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';font-family:var(--mono);font-size:20px;color:var(--verify);flex:none;transition:transform .15s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 4px 20px;color:var(--ink-soft);max-width:64ch}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--rule);padding:44px 0 56px;color:var(--ink-soft);font-size:15px}
+.foot-in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer a{color:var(--ink-soft)}
+footer a:hover{color:var(--ink)}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="VerifiedBulk home">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><path d="M13 1.5 23 5v7.2c0 5.9-4.2 10.2-10 12.3C7.2 22.4 3 18.1 3 12.2V5l10-3.5Z" fill="#0E7B54"/><path d="m8.6 12.9 3 3 5.8-6.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      VerifiedBulk
+    </a>
+    <div class="nav-links">
+      <a href="#core-loop">The loop</a>
+      <a href="#features">Features</a>
+      <a href="#fields">Fields</a>
+      <a href="#faq">FAQ</a>
+      <a class="nav-cta" href="https://web-production-2f17e.up.railway.app/">Open the app</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">VerifiedBulk &middot; Merchant guide</p>
+      <h1>Edit thousands of products. Keep the receipts.</h1>
+      <p class="lede">VerifiedBulk re-reads every product it touches and shows you proof. This guide teaches you the full loop &mdash; and the habits that make bulk editing boring, in the best way.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#core-loop">Learn the loop</a>
+        <a class="btn btn-ghost" href="https://web-production-2f17e.up.railway.app/">Open VerifiedBulk</a>
+      </div>
+    </div>
+    <div class="receipt" role="img" aria-label="A sample verification report: three items verified, one flagged for review">
+      <div class="receipt-head"><span>Verification report</span><span class="stamp">Verified</span></div>
+      <div class="receipt-rows">
+        <div class="r-row"><span class="r-name">Linen Crewneck</span><span class="r-vals"><span class="r-old">$34.00</span> &rarr; <span class="r-new">$27.20</span></span><span class="r-mark mark-ok">&#10003; verified</span></div>
+        <div class="r-row"><span class="r-name">Canvas Weekender</span><span class="r-vals"><span class="r-old">$22.00</span> &rarr; <span class="r-new">$17.60</span></span><span class="r-mark mark-ok">&#10003; verified</span></div>
+        <div class="r-row"><span class="r-name">Enamel Camp Mug</span><span class="r-vals">tags <span class="r-new">+clearance</span></span><span class="r-mark mark-ok">&#10003; verified</span></div>
+        <div class="r-row"><span class="r-name">Wool Beanie</span><span class="r-vals"><span class="r-old">$18.00</span> &rarr; <span class="r-new">$14.40</span></span><span class="r-mark mark-warn">&#9888; review</span></div>
+      </div>
+      <div class="receipt-foot"><span>1,204 written &middot; 1,203 verified</span><span class="warn">1 needs your review</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="core-loop">
+  <div class="wrap">
+    <p class="sec-eyebrow">The core loop</p>
+    <h2>Five steps. Every edit, every time.</h2>
+    <p class="sec-lede">Every job in VerifiedBulk &mdash; a price change, a tag cleanup, even a deletion &mdash; runs through the same five steps. Learn the loop once and you know the whole app. Click through each step below.</p>
+    <div class="loop">
+      <div class="steps" role="tablist" aria-label="Core loop steps">
+        <button class="step-btn" role="tab" id="tab-1" aria-selected="true" aria-controls="panel-loop"><span class="step-num">1</span>Filter</button>
+        <button class="step-btn" role="tab" id="tab-2" aria-selected="false" aria-controls="panel-loop"><span class="step-num">2</span>Preview</button>
+        <button class="step-btn" role="tab" id="tab-3" aria-selected="false" aria-controls="panel-loop"><span class="step-num">3</span>Run</button>
+        <button class="step-btn" role="tab" id="tab-4" aria-selected="false" aria-controls="panel-loop"><span class="step-num">4</span>Verify</button>
+        <button class="step-btn" role="tab" id="tab-5" aria-selected="false" aria-controls="panel-loop"><span class="step-num">5</span>Undo</button>
+      </div>
+      <div class="panel" id="panel-loop" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <p class="sec-eyebrow">Feature guides</p>
+    <h2>The features that do the worrying for you</h2>
+    <p class="sec-lede">Four tools most bulk editors don&rsquo;t have &mdash; and how to get the most out of each one.</p>
+    <div class="feat-grid">
+
+      <article class="feat reveal">
+        <h3>Scheduled sales with verified rollback</h3>
+        <p>Schedule a sale with a start time and an end time. When it ends, VerifiedBulk restores every price, re-reads every product, and emails you a receipt. If anything needs attention, the email says exactly what.</p>
+        <div class="mock"><span class="ok">&#10003;</span> Revert fired Jul 2, 11:00 PM<br><span class="dim">1,204 / 1,204 prices restored and verified</span><br><span class="dim">Receipt sent to you@store.com</span></div>
+        <p style="font-size:15px">Filters re-evaluate when the sale fires &mdash; products added to your Sale collection after scheduling are included automatically. Schedules show in your store&rsquo;s timezone.</p>
+      </article>
+
+      <article class="feat reveal">
+        <h3>Conflict-aware undo</h3>
+        <p>Undo never blindly overwrites. If a price changed <em>after</em> your edit &mdash; by you, your team, or another app &mdash; that item is flagged instead of restored, and you see all three values side by side.</p>
+        <div class="mock">Wool Beanie &mdash; price<br><span class="dim">before edit</span> $18.00 &middot; <span class="dim">our edit</span> $14.40 &middot; <span class="warn">now $12.99</span><br><span class="dim">&rarr; Skip (keep $12.99) or Force restore ($18.00)</span></div>
+        <p style="font-size:15px">Scheduled rollbacks follow the same rule while you sleep: clean items restore, conflicted items wait for you. Nothing is force-written without your say-so.</p>
+      </article>
+
+      <article class="feat reveal">
+        <h3>The Recycle Bin</h3>
+        <p>Bulk deletion with a 30-day safety net. Before anything is deleted, VerifiedBulk snapshots the full product &mdash; variants, prices, images, tags, metafields &mdash; and copies images into your store&rsquo;s own Files so they survive.</p>
+        <div class="mock"><span class="dim">Deleted Jun 30 &middot; Filtered by tag &ldquo;discontinued&rdquo;</span><br>14 products &middot; <span class="ok">restorable for 23 more days</span></div>
+        <p class="honesty"><b>Honest limits:</b> restored products get new IDs, inventory restores best-effort to one location, and analytics history doesn&rsquo;t come back. The restore report tells you exactly what did and didn&rsquo;t.</p>
+      </article>
+
+      <article class="feat reveal">
+        <h3>Archive instead</h3>
+        <p>Most of the time you don&rsquo;t need to delete at all. Archiving hides products from your storefront, keeps every ID and stat intact, and reverses instantly. VerifiedBulk offers it first, every time you reach for delete.</p>
+        <div class="mock"><span class="dim">Status edit</span><br>Active <span class="dim">&rarr;</span> Archived &middot; <span class="ok">instantly reversible</span></div>
+        <p style="font-size:15px">Rule of thumb: archive for &ldquo;maybe later,&rdquo; Recycle Bin for &ldquo;actually gone.&rdquo; Both run through the same preview-and-verify loop.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="fields">
+  <div class="wrap">
+    <p class="sec-eyebrow">Field reference</p>
+    <h2>Everything you can edit in bulk</h2>
+    <p class="sec-lede">Ten fields, every one with preview, verification, and conflict-aware undo. Variant-level fields (price, compare-at, cost) expand automatically &mdash; filter by product, edit every variant.</p>
+    <div class="field-grid">
+      <div class="field"><b>Price</b><span>set &middot; &plusmn;% &middot; &plusmn;$</span></div>
+      <div class="field"><b>Compare-at price</b><span>set &middot; &plusmn;% &middot; &plusmn;$</span></div>
+      <div class="field"><b>Cost</b><span>set &middot; &plusmn;% &middot; &plusmn;$</span></div>
+      <div class="field"><b>Tags</b><span>add &middot; remove &middot; replace</span></div>
+      <div class="field"><b>Status</b><span>active &middot; draft &middot; archived</span></div>
+      <div class="field"><b>Title</b><span>find &amp; replace &middot; append &middot; prepend</span></div>
+      <div class="field"><b>Vendor</b><span>set &middot; find &amp; replace</span></div>
+      <div class="field"><b>Product type</b><span>set</span></div>
+      <div class="field"><b>SEO title</b><span>set &middot; find &amp; replace &middot; append</span></div>
+      <div class="field"><b>SEO description</b><span>set &middot; find &amp; replace &middot; append</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="playbook">
+  <div class="wrap">
+    <p class="sec-eyebrow">Playbook</p>
+    <h2>Habits of merchants who never lose data</h2>
+    <p class="sec-lede">Small practices that compound. Steal all eight.</p>
+    <ul class="play">
+      <li class="reveal"><b>Read the preview count, not just the rows.</b> The total tells you the true blast radius before you commit &mdash; if it surprises you, your filter is wrong.</li>
+      <li class="reveal"><b>Schedule the revert with the sale.</b> Set start and end together and the rollback can&rsquo;t be forgotten. The receipt email confirms it worked.</li>
+      <li class="reveal"><b>Trust a zero-match block.</b> If find &amp; replace matches nothing, VerifiedBulk blocks the run. That&rsquo;s not an error &mdash; it just saved you a no-op job.</li>
+      <li class="reveal"><b>Archive before you delete.</b> If there&rsquo;s any &ldquo;maybe&rdquo; in the decision, archive. Delete is for certainty; the Recycle Bin is the backstop, not the plan.</li>
+      <li class="reveal"><b>Resolve conflicts same-day.</b> Conflicted items are waiting on your judgment. The three-value view makes it a ten-second decision per item.</li>
+      <li class="reveal"><b>Use tags as staging.</b> Tag a set first, review it in Shopify admin, then run your real edit filtered by that tag. Two small jobs beat one risky one.</li>
+      <li class="reveal"><b>Before big sales, test on ten.</b> Run your BFCM price change on a ten-product filter first. Verify the receipt, then scale the same edit definition to everything.</li>
+      <li class="reveal"><b>Let old history prune.</b> Snapshots expire with your plan&rsquo;s window (7 or 90 days). Undo what needs undoing this week &mdash; don&rsquo;t treat history as a backup system.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <p class="sec-eyebrow">FAQ</p>
+    <h2>Quick answers</h2>
+    <div class="faq" style="margin-top:34px">
+      <details><summary>What does &ldquo;verified&rdquo; actually mean?</summary><p>After every job, VerifiedBulk re-reads each product it touched straight from Shopify and compares the live value to what it intended to write. Matches are marked verified; mismatches are itemized with reasons and a one-click retry. You never have to take &ldquo;success&rdquo; on faith.</p></details>
+      <details><summary>Is the free plan actually usable?</summary><p>Yes &mdash; it&rsquo;s every feature, capped at 50 products per edit with 7 days of undo history. Verified edits, scheduled rollbacks, conflict-aware undo, and the Recycle Bin all included. Small catalogs can run entirely on it.</p></details>
+      <details><summary>What does Pro add?</summary><p>Pro is $19/month flat: unlimited products per edit and 90 days of undo history. No task counting, ever &mdash; run one job a month or a hundred, the price is the price.</p></details>
+      <details><summary>What happens if my scheduled rollback hits a conflict at 3am?</summary><p>Clean items are restored and verified automatically. Conflicted items are never force-written while you sleep &mdash; they&rsquo;re flagged, and your receipt email says &ldquo;N items need your review&rdquo; with a link straight to the resolution screen.</p></details>
+      <details><summary>What doesn&rsquo;t the Recycle Bin restore?</summary><p>Restored products come back with new product IDs (old links and integrations pointing at the old ID won&rsquo;t follow), inventory restores best-effort to a single location, automatic collections recalculate on their own, and sales history isn&rsquo;t part of a product object. The restore report states exactly what came back.</p></details>
+      <details><summary>What data does VerifiedBulk store?</summary><p>Snapshots of the product fields you edit (that&rsquo;s what powers undo and the Recycle Bin) and your shop&rsquo;s notification email. Customer data isn&rsquo;t touched beyond Shopify&rsquo;s required privacy webhooks, which we honor automatically.</p></details>
+      <details><summary>How do I get help?</summary><p>Email <a href="mailto:support@verifiedbulk.app">support@verifiedbulk.app</a> &mdash; it goes straight to the developer. Include the job&rsquo;s verification report if your question is about a specific edit; it usually contains the answer.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>&copy; 2026 VerifiedBulk &middot; The bulk editor that verifies its work.</span>
+    <span><a href="mailto:support@verifiedbulk.app">support@verifiedbulk.app</a> &nbsp;&middot;&nbsp; <a href="/privacy">Privacy</a> &nbsp;&middot;&nbsp; <a href="https://web-production-2f17e.up.railway.app/">Open the app</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var steps = {
+    1:{t:'Filter',h:'Point at exactly the right products',b:'Combine filters \u2014 collection, tag, vendor, product type, title, price range, status \u2014 and watch the live match count update as you build. Filters combine with AND: every condition must be true.',m:'<span class="chip">Collection: Summer</span><span class="chip">Tag: clearance</span><span class="chip">Price &gt; $20</span><br><span class="dim" style="display:block;margin-top:10px">Matching products: <b style="color:var(--ink)">146</b></span>',tip:'If the count surprises you, fix the filter before you ever see a preview. The count is your first safety check.'},
+    2:{t:'Preview',h:'See every change before it happens',b:'The preview computes each new value with the exact same code the job will run \u2014 it can\u2019t drift from reality. Old \u2192 new, row by row, with the true total. Nothing runs until you confirm.',m:'Linen Crewneck &nbsp;<span class="old">$34.00</span> \u2192 $27.20<br>Canvas Weekender &nbsp;<span class="old">$22.00</span> \u2192 $17.60<br><span class="dim">\u2026 144 more &middot; total affected: 146</span>',tip:'A find &amp; replace that matches zero items blocks the run entirely \u2014 you can\u2019t accidentally run a job that does nothing.'},
+    3:{t:'Run',h:'Watch it work, in real numbers',b:'Jobs run in the background with live progress \u2014 leave the page, close the laptop, it keeps going. Large jobs are paced to Shopify\u2019s API limits and checkpoint as they go, so an interruption resumes instead of leaving your catalog half-edited.',m:'<span class="dim">Decrease price by 20% \u00b7 running</span><span class="bar"><i></i></span><span class="dim" style="display:block;margin-top:8px">105 / 146 written</span>',tip:'Scheduled jobs run on VerifiedBulk\u2019s servers, not your browser \u2014 your part ended at Confirm.'},
+    4:{t:'Verify',h:'Proof, not promises',b:'When the writes finish, VerifiedBulk re-reads every product from Shopify and compares what\u2019s live against what it intended. The report itemizes verified, failed, and conflicted \u2014 with reasons \u2014 and failed items retry with one click.',m:'<span class="ok">\u2713 146 / 146 verified</span><br><span class="dim">Re-read from Shopify \u00b7 0 failed \u00b7 0 conflicted</span>',tip:'This is the screen worth screenshotting for your records \u2014 it\u2019s a receipt that the job truly happened.'},
+    5:{t:'Undo',h:'Reversible, without collateral damage',b:'Every job snapshots old values first, so undo is one click \u2014 and it\u2019s conflict-aware. Items whose values changed after your edit are flagged with all three values shown, never silently overwritten. Undo runs through the same loop: preview, run, verify.',m:'Undo &ldquo;Decrease price by 20%&rdquo;<br><span class="ok">\u2713 145 restored &amp; verified</span> \u00b7 <span class="warn">\u26a0 1 conflicted \u2192 your call</span>',tip:'Tag edits undo by reversing exactly what the job did \u2014 tags you added later are left alone.'}
+  };
+  var panel = document.getElementById('panel-loop');
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.step-btn'));
+  function render(n){
+    var s = steps[n];
+    panel.innerHTML = '<h3>'+s.h+'</h3><p>'+s.b+'</p><div class="mock">'+s.m+'</div><div class="tip"><b>Tip</b><span>'+s.tip+'</span></div>';
+    tabs.forEach(function(t,i){t.setAttribute('aria-selected', String(i===n-1));});
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){render(i+1);});
+  });
+  render(1);
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.15});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
+  }
+})();
+</script>
+</body>
+</html>
