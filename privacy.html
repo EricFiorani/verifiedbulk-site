@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — VerifiedBulk</title>
+<meta name="description" content="What VerifiedBulk stores, why, for how long, and what it never touches.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2026%2026'%3E%3Cpath%20d='M13%201.5%2023%205v7.2c0%205.9-4.2%2010.2-10%2012.3C7.2%2022.4%203%2018.1%203%2012.2V5l10-3.5Z'%20fill='%230E7B54'/%3E%3Cpath%20d='m8.6%2012.9%203%203%205.8-6.2'%20stroke='%23fff'%20stroke-width='2.2'%20stroke-linecap='round'%20stroke-linejoin='round'%20fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#FAFAF7;--ink:#1C2622;--ink-soft:#4A564F;--accent:#0E7B54;
+        --display:'Fraunces',serif;--body:'Instrument Sans',system-ui,sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.65}
+  main{max-width:44rem;margin:0 auto;padding:4rem 1.25rem 5rem}
+  h1{font-family:var(--display);font-size:2.2rem;margin-bottom:.5rem}
+  h2{font-family:var(--display);font-size:1.35rem;margin:2.25rem 0 .6rem}
+  p,li{color:var(--ink-soft)}
+  ul{padding-left:1.2rem;margin:.5rem 0}
+  li{margin:.3rem 0}
+  a{color:var(--accent)}
+  .updated{font-size:.9rem;color:var(--ink-soft);margin-bottom:2rem}
+  .mark{display:inline-block;vertical-align:-4px;margin-right:.5rem}
+  footer{max-width:44rem;margin:0 auto;padding:0 1.25rem 3rem;font-size:.9rem;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<main>
+  <h1><svg class="mark" width="30" height="30" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 1.5 23 5v7.2c0 5.9-4.2 10.2-10 12.3C7.2 22.4 3 18.1 3 12.2V5l10-3.5Z" fill="#0E7B54"/><path d="m8.6 12.9 3 3 5.8-6.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Privacy Policy</h1>
+  <p class="updated">VerifiedBulk · Last updated July 28, 2026</p>
+
+  <p>VerifiedBulk is a Shopify admin app for bulk-editing products, built and
+  operated by Fioran Research ("we"). This page describes exactly what data
+  the app stores, why, for how long, and what it never touches.</p>
+
+  <h2>What we store, and why</h2>
+  <ul>
+    <li><strong>Your shop's identity:</strong> the myshopify.com domain, the
+    shop owner email address (used for job receipts and service notices), an
+    optional notification email you set in the app, your store's timezone,
+    and your subscription tier.</li>
+    <li><strong>Product data snapshots:</strong> before any bulk edit or
+    deletion, the app records the affected products' current values — titles,
+    prices, tags, SEO fields, variants (SKUs, barcodes, costs), image
+    references, and metafields. These snapshots exist for one purpose: they
+    power verification, conflict-aware undo, and the recycle bin. When you
+    delete products, their images are copied into your own store's Files so
+    restores keep them — product data stays inside your store.</li>
+    <li><strong>Job history:</strong> what was edited, when, and the per-item
+    verification results, so you have an auditable record.</li>
+    <li><strong>API access tokens</strong> issued by Shopify to operate on
+    your store, stored encrypted in transit and at rest by our database
+    provider.</li>
+  </ul>
+
+  <h2>What we never collect</h2>
+  <ul>
+    <li>No customer personal information. The app requests product
+    permissions only; it cannot read your customers, orders, or checkout.</li>
+    <li>No payment details. Billing is handled entirely by Shopify and
+    appears on your Shopify invoice.</li>
+    <li>No tracking pixels, no analytics SDKs, no ad tech — in the app or on
+    this site.</li>
+  </ul>
+
+  <h2>Retention and deletion</h2>
+  <ul>
+    <li>Job history and undo snapshots are kept for your plan's window
+    (7 days on Free, 90 days on Pro) and then deleted automatically.</li>
+    <li>Recycle-bin snapshots are deleted at their restore deadline, or
+    immediately when you purge them — purged means purged, including the
+    image copies in your store's Files.</li>
+    <li>When you uninstall the app, Shopify sends us its standard redaction
+    webhook and we delete all stored data for your shop — snapshots, job
+    history, tokens, everything.</li>
+  </ul>
+
+  <h2>GDPR &amp; data requests</h2>
+  <p>We implement Shopify's mandatory privacy webhooks. Because we store no
+  customer personal data, customer data requests and customer redaction
+  requests are acknowledged with nothing to return or delete. Shop redaction
+  requests permanently remove all data we hold for the shop. For any manual
+  request, email us — we respond within 30 days.</p>
+
+  <h2>Where data lives</h2>
+  <p>The app runs on Railway (US) with data in Neon Postgres (US). Email
+  receipts are sent through Resend. These providers process data solely to
+  operate the service. Your product data is never sold, shared for
+  advertising, or used to train anything.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes materially, the "last updated" date changes and
+  significant changes will be noted in the app.</p>
+
+  <h2>Contact</h2>
+  <p>Questions or requests:
+  <a href="mailto:support@verifiedbulk.app">support@verifiedbulk.app</a></p>
+</main>
+<footer>
+  <a href="/">← verifiedbulk.app</a>
+</footer>
+</body>
+</html>
