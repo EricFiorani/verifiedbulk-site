@@ -43,7 +43,7 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
 <body>
 <main>
   <h1><svg class="mark" width="30" height="30" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 1.5 23 5v7.2c0 5.9-4.2 10.2-10 12.3C7.2 22.4 3 18.1 3 12.2V5l10-3.5Z" fill="#0E7B54"/><path d="m8.6 12.9 3 3 5.8-6.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Privacy Policy</h1>
-  <p class="updated">VerifiedBulk · Last updated July 28, 2026</p>
+  <p class="updated">VerifiedBulk · Last updated September 9, 2026</p>
 
   <p>VerifiedBulk is a Shopify admin app for bulk-editing products, built and
   operated by Fioran Research ("we"). This page describes exactly what data
@@ -63,7 +63,10 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
     delete products, their images are copied into your own store's Files so
     restores keep them — product data stays inside your store.</li>
     <li><strong>Job history:</strong> what was edited, when, and the per-item
-    verification results, so you have an auditable record.</li>
+    verification results, so you have an auditable record — plus a few
+    first-time milestones for your shop (first edit, first verified job,
+    upgrade) that we read only in aggregate to see whether merchants get
+    value from the app.</li>
     <li><strong>API access tokens</strong> issued by Shopify to operate on
     your store, stored encrypted in transit and at rest by our database
     provider.</li>
@@ -75,8 +78,9 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
     permissions only; it cannot read your customers, orders, or checkout.</li>
     <li>No payment details. Billing is handled entirely by Shopify and
     appears on your Shopify invoice.</li>
-    <li>No tracking pixels, no analytics SDKs, no ad tech — in the app or on
-    this site.</li>
+    <li>No tracking pixels, no analytics SDKs, no ad tech <strong>inside the
+    app</strong>. Nothing running in your Shopify admin talks to anyone but
+    Shopify and us. (This website uses Google Analytics — see below.)</li>
   </ul>
 
   <h2>Retention and deletion</h2>
@@ -88,8 +92,27 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
     image copies in your store's Files.</li>
     <li>When you uninstall the app, Shopify sends us its standard redaction
     webhook and we delete all stored data for your shop — snapshots, job
-    history, tokens, everything.</li>
+    history, tokens, everything. The only thing that remains is anonymous
+    counts (for example "one install happened this week") that contain
+    nothing identifying your shop.</li>
   </ul>
+
+  <h2>This website and the App Store listing</h2>
+  <p>verifiedbulk.app uses Google Analytics 4 to count page views and which
+  links are clicked, so we can tell whether this guide is useful. It runs
+  with Google's advertising features switched off: no ad personalization,
+  no Google Signals, no demographics. Google does not store full IP
+  addresses for this property. If you visit from the European Economic
+  Area, the United Kingdom, or Switzerland, analytics cookies are off by
+  default and we do not ask you to turn them on; elsewhere, Google sets
+  first-party <code>_ga</code> cookies (two-year expiry) that you can clear
+  or block in your browser at any time.</p>
+  <p>Our listing on the Shopify App Store reports to the same Google
+  Analytics property. Shopify sends it listing page views and, when you
+  install VerifiedBulk from the listing, an install event that includes
+  your store's myshopify.com domain. We use this only to understand how
+  merchants find the app. Google processes it under
+  <a href="https://policies.google.com/privacy">Google's privacy policy</a>.</p>
 
   <h2>GDPR &amp; data requests</h2>
   <p>We implement Shopify's mandatory privacy webhooks. Because we store no
@@ -99,10 +122,12 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
   request, email us — we respond within 30 days.</p>
 
   <h2>Where data lives</h2>
-  <p>The app runs on Railway (US) with data in Neon Postgres (US). Email
-  receipts are sent through Resend. These providers process data solely to
-  operate the service. Your product data is never sold, shared for
-  advertising, or used to train anything.</p>
+  <p>The app and its Postgres database run on Railway (US). Email receipts
+  are sent through Resend. Website and App Store listing traffic is
+  measured with Google Analytics (see above); your product data never goes
+  to Google. These providers process data solely to operate the service.
+  Your product data is never sold, shared for advertising, or used to train
+  anything.</p>
 
   <h2>Changes</h2>
   <p>If this policy changes materially, the "last updated" date changes and
