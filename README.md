@@ -88,8 +88,10 @@ carried through the build forever).
    minutes (Porkbun TTL is short).
 4. Back in Search Console click **Verify**. If it fails, wait ten minutes
    and retry — propagation, not a mistake.
-5. Left nav **Sitemaps** → enter `sitemap.xml` → **Submit**. Status should
-   read Success with 6 discovered URLs.
+5. Left nav **Sitemaps** → enter the full URL
+   `https://verifiedbulk.app/sitemap.xml` → **Submit** (a Domain property
+   has no URL prefix to fill in, so the bare filename is rejected). Status
+   should read Success with 6 discovered URLs.
 6. For each new guide: top search bar → paste the full URL → **Request
    indexing** (the URL inspection tool). Do this for the three guides now
    and for every guide you publish later. Indexing typically follows within
