@@ -86,7 +86,12 @@ export default function (eleventyConfig) {
 
   // {% cta "Install VerifiedBulk" %} — the ONLY way guides link to the listing.
   eleventyConfig.addShortcode("cta", function (text) {
-    const url = this.ctx?.ctaUrl ?? `${APP_STORE}?utm_source=verifiedbulk-site&utm_medium=referral&utm_campaign=site-page`;
+    // Derive the campaign from the page URL: inside markdown the shortcode
+    // context doesn't carry computed data reliably, and the guide campaign
+    // on the body CTA is the one S5 attributes installs by.
+    const m = /^\/guides\/([^/]+)\/$/.exec(this.page?.url ?? "");
+    const campaign = m ? `guide-${m[1]}` : "site-page";
+    const url = `${APP_STORE}?utm_source=verifiedbulk-site&utm_medium=referral&utm_campaign=${campaign}`;
     return `<a class="btn btn-primary" href="${url}">${text}</a>`;
   });
 
