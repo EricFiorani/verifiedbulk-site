@@ -6,7 +6,6 @@ slug: schedule-shopify-sale-that-reverts
 date: 2026-09-15
 updated: 2026-09-15
 related: [bulk-edit-prices-shopify, deleted-shopify-products-recovery]
-draft: true
 howto:
   name: "Schedule a sale with a verified automatic revert"
   steps:

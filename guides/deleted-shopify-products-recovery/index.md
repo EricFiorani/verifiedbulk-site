@@ -6,7 +6,6 @@ slug: deleted-shopify-products-recovery
 date: 2026-09-15
 updated: 2026-09-15
 related: [bulk-edit-prices-shopify, schedule-shopify-sale-that-reverts]
-draft: true
 howto:
   name: "Bulk delete products on Shopify with a way back"
   steps:
