@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{%- set ogcardUrl = (site.url + '/og/' + slug + '.png') if layout == 'guide.njk' else (site.url + '/assets/og-default.png') %}
+{% include "head.njk" %}
+</head>
+<body>
+{% include "nav.njk" %}
+{{ content | safe }}
+{% include "footer.njk" %}
+{% ogcard %}
+</body>
+</html>

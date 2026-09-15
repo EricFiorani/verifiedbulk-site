@@ -6,6 +6,18 @@ Community threads. One line each: target query → angle → priority. Cadence:
 1–2 guides/week through October; Eric voices, Claude drafts. Cross off here
 when published; add new lines as support email and reviews surface them.
 
+## P0 — the category's trust wound, in a customer's words
+
+- **"It said it worked — but only changed half": why bulk edits need
+  verification** — the future "why verification matters" cornerstone.
+  Anchor quote from a 1★ review of a category leader: "Choose to change
+  the price on 22 items and said it did but really only changed half."
+  Angle: diagnostic and non-salesy — what silent partial failure looks
+  like (rate limits, userErrors swallowed, timeouts), how to check after
+  ANY tool, why read-back verification is the only honest "done". Target
+  queries: "bulk edit didn't apply to all products shopify", "shopify bulk
+  edit only some products changed". Pinned top priority (Eric, S3).
+
 ## P1 — direct demand, seasonal, or on the activation path
 
 1. **How to bulk edit prices on Shopify (safely)** — cornerstone #1. _(S3)_
@@ -24,9 +36,7 @@ when published; add new lines as support email and reviews surface them.
 
 ## P2 — recurring complaints in reviews, good long-tail
 
-8. **Bulk edit that "said it worked but only changed half"** — the silent
-   partial failure (a real 1★ review quote); what to check after any bulk
-   tool runs; verification as a habit. Angle: diagnostic, not sales.
+8. _(moved to P0 above)_
 9. **How to undo a bulk edit on Shopify** — no native undo; CSV re-import
    caveats; snapshot-based undo; conflicts when someone edited in between.
 10. **Shopify CSV import gotchas that destroy data** — blank columns

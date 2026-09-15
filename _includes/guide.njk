@@ -1,0 +1,53 @@
+---
+layout: base.njk
+---
+{%- set related = collections.guide | bySlug(related) %}
+<main class="guide wrap">
+  <article>
+    <header class="guide-head">
+      <p class="eyebrow"><a href="/guides/">Guides</a></p>
+      <h1>{{ title }}</h1>
+      <p class="lede">{{ description }}</p>
+      <p class="guide-meta">Updated {{ (updated or date) | humanDate }} &middot; Verified against Shopify's help documentation on that date.</p>
+    </header>
+    {{ content | safe }}
+    {%- if faq and faq.length %}
+    <section class="guide-faq" id="faq">
+      <h2>Frequently asked</h2>
+      {%- for item in faq %}
+      <details><summary>{{ item.q }}</summary><div>{{ item.a | safe }}</div></details>
+      {%- endfor %}
+    </section>
+    {%- endif %}
+  </article>
+  {%- if related and related.length %}
+  <aside class="guide-related">
+    <h2>Related guides</h2>
+    <ul>
+      {%- for g in related %}
+      <li><a href="{{ g.url }}">{{ g.data.title }}</a><span>{{ g.data.description }}</span></li>
+      {%- endfor %}
+    </ul>
+  </aside>
+  {%- endif %}
+</main>
+{#- Structured data: Article always; HowTo only with steps; FAQPage only with faq. #}
+{%- set article = {
+  "@context": "https://schema.org", "@type": "Article",
+  "headline": title, "description": description,
+  "datePublished": date | isoDate, "dateModified": (updated or date) | isoDate,
+  "mainEntityOfPage": canonical, "image": ogcardUrl,
+  "author": { "@type": "Organization", "name": "VerifiedBulk", "url": site.url },
+  "publisher": { "@type": "Organization", "name": "VerifiedBulk", "url": site.url }
+} %}
+<script type="application/ld+json">{{ article | jsonld | safe }}</script>
+{%- if howto and howto.steps and howto.steps.length %}
+{%- set steps = [] %}
+{%- for s in howto.steps %}{% set steps = (steps.push({ "@type": "HowToStep", "position": loop.index, "name": s.name, "text": s.text }), steps) %}{% endfor %}
+<script type="application/ld+json">{{ { "@context": "https://schema.org", "@type": "HowTo", "name": howto.name or title, "description": description, "step": steps } | jsonld | safe }}</script>
+{%- endif %}
+{%- if faq and faq.length %}
+{%- set qs = [] %}
+{%- for item in faq %}{% set qs = (qs.push({ "@type": "Question", "name": item.q, "acceptedAnswer": { "@type": "Answer", "text": item.a } }), qs) %}{% endfor %}
+<script type="application/ld+json">{{ { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": qs } | jsonld | safe }}</script>
+{%- endif %}

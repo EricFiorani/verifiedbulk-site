@@ -1,0 +1,22 @@
+---
+layout: base.njk
+title: Guides
+description: Practical, verified guides to bulk editing on Shopify — prices, sales that revert themselves, safe deletion, and the habits that keep catalogs intact.
+permalink: /guides/
+---
+<main class="guide wrap">
+  <header class="guide-head">
+    <p class="eyebrow">Guides</p>
+    <h1>Bulk editing on Shopify, done carefully</h1>
+    <p class="lede">{{ description }}</p>
+  </header>
+  <ul class="guide-list">
+    {%- for g in collections.guide %}
+    <li>
+      <a href="{{ g.url }}"><h2>{{ g.data.title }}</h2></a>
+      <p>{{ g.data.description }}</p>
+      <p class="guide-meta">Updated {{ (g.data.updated or g.data.date) | humanDate }}</p>
+    </li>
+    {%- endfor %}
+  </ul>
+</main>

@@ -1,0 +1,19 @@
+{
+  "name": "verifiedbulk-site",
+  "private": true,
+  "type": "module",
+  "description": "verifiedbulk.app — guide engine (Eleventy 3, GitHub Pages)",
+  "scripts": {
+    "build": "eleventy",
+    "dev": "eleventy --serve",
+    "icons": "node scripts/make-icons.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.6",
+    "@11ty/eleventy-img": "6.0.4",
+    "markdown-it": "14.3.2"
+  }
+}
