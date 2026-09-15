@@ -72,3 +72,25 @@ Actions**. Dependabot opens one grouped PR a month for npm and one for
 Actions; merge when green.
 
 If a build fails, the previous deploy stays live. Fix, push again.
+
+## Search Console (one-time, then per guide)
+
+Property type: **Domain** (`verifiedbulk.app`), verified by a DNS TXT record
+at Porkbun. A domain property covers http/https and www in one place, and
+DNS verification survives site rebuilds (an HTML-file token would have to be
+carried through the build forever).
+
+1. https://search.google.com/search-console → **Add property** → **Domain**
+   → enter `verifiedbulk.app` → **Continue**.
+2. Copy the TXT record value (`google-site-verification=…`).
+3. Porkbun → Domain Management → `verifiedbulk.app` → **DNS Records** → add
+   type **TXT**, host blank (root), answer = the value → save. Wait a few
+   minutes (Porkbun TTL is short).
+4. Back in Search Console click **Verify**. If it fails, wait ten minutes
+   and retry — propagation, not a mistake.
+5. Left nav **Sitemaps** → enter `sitemap.xml` → **Submit**. Status should
+   read Success with 6 discovered URLs.
+6. For each new guide: top search bar → paste the full URL → **Request
+   indexing** (the URL inspection tool). Do this for the three guides now
+   and for every guide you publish later. Indexing typically follows within
+   days; ranking follows in weeks.
