@@ -6,14 +6,13 @@ slug: bulk-edit-shopify-metafields
 date: 2026-09-24
 updated: 2026-09-24
 related: [bulk-edit-prices-shopify, deleted-shopify-products-recovery]
-draft: true
 howto:
   name: "Bulk edit product metafields with Shopify's built-in editor"
   steps:
     - name: "Make sure a definition exists"
       text: "Settings → Custom data → Products. A metafield only appears as an editable column once it has a definition (name, namespace.key, type)."
     - name: "Select the products"
-      text: "Go to Products, tick the products to change, then click Edit products (labelled Bulk edit in some stores)."
+      text: "Go to Products, tick the products to change, then click Bulk edit (Shopify's help pages sometimes call this Edit products)."
     - name: "Add the metafield column"
       text: "Click Columns and pick the definition from the Metafields section."
     - name: "Type the values"
@@ -34,8 +33,8 @@ faq:
 ---
 
 <!-- Verified 2026-09-24 against:
-     https://help.shopify.com/en/manual/custom-data/metafields/bulk-edit-metafields (Products → Edit products → Columns → Metafields section; products, variants, collections, customers; Edge URL-length caveat)
-     https://help.shopify.com/en/manual/shopify-admin/productivity-tools/bulk-editing (Bulk edit, Columns, Save, fill handle — the general page uses the older "Bulk edit" label; confirm the current label in your admin)
+     https://help.shopify.com/en/manual/custom-data/metafields/bulk-edit-metafields (Products → "Edit products" → Columns → Metafields section; products, variants, collections, customers; Edge URL-length caveat)
+     https://help.shopify.com/en/manual/shopify-admin/productivity-tools/bulk-editing (Bulk edit, Columns, Save, fill handle). Dev-store check 2026-09-24: the Products bulk action reads "Bulk edit" — that is the label used in copy.
      https://help.shopify.com/en/manual/products/import-export/using-csv (product metafield columns appear as "NAME (product.metafields.namespace.key)" once a definition exists; variant metafields not supported in the product CSV; blank non-required column overwrites as blank)
      https://help.shopify.com/en/manual/products/import-export/import-products (Overwrite products with matching handles; imports can't be canceled)
      https://shopify.dev/docs/apps/build/metafields/metafield-limits (64 KB per text value; lists max 128 items)
@@ -55,7 +54,7 @@ Two facts that shape everything below: a metafield either exists on a product wi
 The built-in editor handles metafields, and for the common case it is the right tool.
 
 1. In Shopify admin, go to **Settings → Custom data → Products** and confirm the metafield has a definition. If not, add one; pick the type carefully, it can't be changed later without recreating the values.
-2. Go to **Products**, tick the products you want to change, and click **Edit products**. (Older documentation and some stores label this button **Bulk edit**; it opens the same editor.)
+2. Go to **Products**, tick the products you want to change, and click **Bulk edit**. (Shopify's help page on metafields calls the same button **Edit products**; it opens the same editor.)
 3. Click **Columns**. Scroll to the **Metafields** section and tick the definition. It appears as a column.
 4. Type the value into each cell. Typed fields render typed controls: a date picker for dates, a true/false toggle for booleans, a dropdown when the definition has predefined choices. To apply one value down the column, type it once and drag the fill handle.
 5. Click **Save**. Invalid values are flagged and nothing saves until they're fixed.

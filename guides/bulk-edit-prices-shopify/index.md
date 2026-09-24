@@ -4,8 +4,8 @@ title: "How to bulk edit prices on Shopify (safely)"
 description: "Shopify's bulk editor, the CSV import, and when each is enough — plus the three things neither does: preview the blast radius, verify the result, undo cleanly."
 slug: bulk-edit-prices-shopify
 date: 2026-09-15
-updated: 2026-09-15
-related: [schedule-shopify-sale-that-reverts, deleted-shopify-products-recovery]
+updated: 2026-09-24
+related: [schedule-shopify-sale-that-reverts, bulk-edit-shopify-metafields]
 howto:
   name: "Bulk edit prices with Shopify's built-in bulk editor"
   steps:
@@ -138,4 +138,4 @@ The workflow is the same loop as the built-in tools, with the missing pieces in 
 - **Change one thing per pass.** Prices in one pass, compare-at in the next. Mixed edits are harder to check and harder to undo.
 - **Look afterwards, or use something that looks for you.** The built-in tools end at "saved". Your job ends at "confirmed".
 
-If the price change is a sale with an end date, the ending is its own problem: see [how to schedule a sale that reverts itself](/guides/schedule-shopify-sale-that-reverts/). And if a bulk edit ever goes badly enough that you consider deleting and re-creating products, read [what's recoverable after a delete](/guides/deleted-shopify-products-recovery/) first.
+If the price change is a sale with an end date, the ending is its own problem: see [how to schedule a sale that reverts itself](/guides/schedule-shopify-sale-that-reverts/). If what you're changing is product data rather than prices — care notes, materials, flags your theme reads — the same three tools apply with sharper edges in [how to bulk edit product metafields](/guides/bulk-edit-shopify-metafields/). And if a bulk edit ever goes badly enough that you consider deleting and re-creating products, read [what's recoverable after a delete](/guides/deleted-shopify-products-recovery/) first.

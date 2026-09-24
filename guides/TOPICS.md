@@ -56,8 +56,8 @@ when published; add new lines as support email and reviews surface them.
 15. **Archive vs delete on Shopify: what each does to orders and reports** —
     deep-dive companion to #3 (merchant-reported: deleted products drop out
     of most analytics reports; orders keep the line-item title).
-16. **Product metafields: how to bulk edit them safely** — lands with S4b
-    (metafields editing) to catch the unlocked keyword.
+16. ~~**Product metafields: how to bulk edit them safely**~~ — ✅ published
+    2026-09-24 as /guides/bulk-edit-shopify-metafields/ (S4b).
 17. **Scheduling product changes on Shopify without Plus** — Launchpad is
     Plus-only; Flow has a Scheduled time trigger but no price action;
     what the non-Plus options actually are.
