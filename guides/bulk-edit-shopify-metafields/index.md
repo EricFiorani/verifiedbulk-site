@@ -1,7 +1,7 @@
 ---
 layout: guide.njk
 title: "How to bulk edit product metafields on Shopify (without wrecking them)"
-description: "Shopify's bulk editor and CSV can update metafields — here's exactly how far each goes, where they stop, and how to change typed values across many products safely."
+description: "Shopify's bulk editor and CSV can update metafields — exactly how far each goes, where they stop, and how to change typed values across many products safely."
 slug: bulk-edit-shopify-metafields
 date: 2026-09-24
 updated: 2026-09-24
